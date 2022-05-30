@@ -9,7 +9,7 @@ from plyer import notification
 
 
 def main():
-    PATH = 'D:\\WhatFTP_Storage'
+    PATH = 'D:\\'
     os.chdir(PATH)
     ip = socket.gethostbyname(socket.gethostname())
     addr = (ip, 21)
@@ -18,19 +18,19 @@ def main():
     authorizer = DummyAuthorizer()
     authorizer.add_user('vren', 
                         '0000', 
-                        './vren', 
-                        perm = 'elradfmwM', 
+                        '.', 
+                        perm = 'elradfmwMT', 
                         msg_login = 'Welcome, MrVren', 
                         msg_quit = 'May the Force be with you')
 
     authorizer.add_user('what', 
                         '1111', 
-                        './what', 
-                        perm = 'erladfmwM', 
+                        '.', 
+                        perm = 'erladfmwMT', 
                         msg_login = 'ohayo', 
                         msg_quit = 'alive?')
 
-    authorizer.add_anonymous('./anon')
+    authorizer.add_anonymous('.')
     handler = Events
     handler.banner = '\nServer ready'
     handler.authorizer = authorizer
@@ -52,7 +52,15 @@ def show_notify(title, message):
 
 
 class Events(FTPHandler):
-    
+    def on_login_failed(self, username, password):
+        show_notify('FTP Server', 'Log in failed\nname: ' + 
+                    username + '\npassword: ' + password) 
+        
+    def on_incomplete_file_received(self, file):
+        show_notify('FTP Server', file+' is not recieved')
+        import os
+        os.remove(file)
+'''
     def on_connect(self):
         show_notify('FTP Server', 'user connected')
     
@@ -61,11 +69,9 @@ class Events(FTPHandler):
 
     def on_login(self, username):
         show_notify('FTP Server', 'user ' + username + ' log in')
-        
-    def on_login_failed(self, username, password):
-        show_notify('FTP Server', 'Log in failed\nname: ' + 
-                    username + '\npassword: ' + password) 
-
+'''
+    
+'''
     def on_logout(self, username):
         show_notify('FTP Server', 'user log out')
 
@@ -77,11 +83,8 @@ class Events(FTPHandler):
 
     def on_incomplete_file_sent(self, file):
         show_notify('FTP Server', file+' is not sent')
-
-    def on_incomplete_file_received(self, file):
-        show_notify('FTP Server', file+' is not recieved')
-        import os
-        os.remove(file)
+'''
+    
 
 
 
