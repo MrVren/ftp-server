@@ -1,9 +1,8 @@
 # Домашний файловый сервер
 
-## Необходимые пакеты
+## Необходимые зависимости
 
-1. pip install pyftpdlib
-2. pip install plyer
+    pip install pyftpdlib
 
 #
 
